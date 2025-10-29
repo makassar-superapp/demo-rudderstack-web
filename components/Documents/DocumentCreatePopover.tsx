@@ -4,6 +4,7 @@ import { createDocument } from "@/lib/actions";
 import { Button } from "@/primitives/Button";
 import { Popover } from "@/primitives/Popover";
 import { Document, DocumentGroup, DocumentType, DocumentUser } from "@/types";
+import useRudderStackAnalytics from "@/useRudderAnalytics";
 import styles from "./DocumentCreatePopover.module.css";
 
 interface Props extends Omit<ComponentProps<typeof Popover>, "content"> {
@@ -21,6 +22,7 @@ export function DocumentCreatePopover({
   ...props
 }: Props) {
   const [disableButtons, setDisableButtons] = useState(false);
+  const analytics = useRudderStackAnalytics();
 
   // Create a new document, then navigate to the document's URL location
   async function createNewDocument(name: string, type: DocumentType) {
@@ -50,6 +52,9 @@ export function DocumentCreatePopover({
           <Button
             icon={<PlusIcon />}
             onClick={() => {
+              analytics?.track("document_create", {
+                type: "text",
+              });
               createNewDocument("Untitled", "text");
             }}
             variant="subtle"
@@ -60,6 +65,9 @@ export function DocumentCreatePopover({
           <Button
             icon={<PlusIcon />}
             onClick={() => {
+              analytics?.track("document_create", {
+                type: "whiteboard",
+              });
               createNewDocument("Untitled", "whiteboard");
             }}
             variant="subtle"
@@ -70,6 +78,9 @@ export function DocumentCreatePopover({
           <Button
             icon={<PlusIcon />}
             onClick={() => {
+              analytics?.track("document_create", {
+                type: "canvas",
+              });
               createNewDocument("Untitled", "canvas");
             }}
             variant="subtle"
@@ -80,6 +91,9 @@ export function DocumentCreatePopover({
           <Button
             icon={<PlusIcon />}
             onClick={() => {
+              analytics?.track("document_create", {
+                type: "note",
+              });
               createNewDocument("Untitled", "note");
             }}
             variant="subtle"

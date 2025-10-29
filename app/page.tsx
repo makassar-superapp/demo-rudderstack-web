@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { redirect } from "next/navigation";
 import { ComponentProps, ReactNode } from "react";
 import { auth, signIn } from "@/auth";
+import RudderPageEvents from "@/components/RudderPageEvents";
 import { DASHBOARD_URL } from "@/constants";
 import { SignInIcon } from "@/icons";
 import { MarketingLayout } from "@/layouts/Marketing";
@@ -33,6 +34,7 @@ export default async function Index() {
 
   return (
     <MarketingLayout>
+      <RudderPageEvents />
       <Container className={styles.section}>
         <div className={styles.heroInfo}>
           <h1 className={styles.heroTitle}>
