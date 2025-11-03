@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Script from 'next/script';
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import { Providers } from "@/app/Providers";
 import { auth } from "@/auth";
 import "../styles/normalize.css";
@@ -27,7 +27,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        <Script id='bufferEvents'>
+        <Script id="bufferEvents">
           {`
             window.rudderanalytics = [];
             var methods = [
