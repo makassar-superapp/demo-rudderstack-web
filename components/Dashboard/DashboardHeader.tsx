@@ -1,3 +1,5 @@
+"use client";
+
 import clsx from "clsx";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
@@ -6,6 +8,7 @@ import { CrossIcon, MenuIcon, SignOutIcon } from "@/icons";
 import { Avatar } from "@/primitives/Avatar";
 import { Button } from "@/primitives/Button";
 import { Popover } from "@/primitives/Popover";
+import useRudderStackAnalytics from "@/useRudderAnalytics";
 import { InboxPopover } from "../Inbox";
 import { Logo } from "../Logo";
 import styles from "./DashboardHeader.module.css";
@@ -22,6 +25,7 @@ export function DashboardHeader({
   ...props
 }: Props) {
   const { data: session } = useSession();
+  const analytics = useRudderStackAnalytics();
 
   return (
     <header className={clsx(className, styles.header)} {...props}>
@@ -54,7 +58,12 @@ export function DashboardHeader({
                   <Button
                     className={styles.profilePopoverButton}
                     icon={<SignOutIcon />}
-                    onClick={() => signOut()}
+                    onClick={() => {
+                      if (analytics) {
+                        analytics.reset();
+                      }
+                      signOut();
+                    }}
                   >
                     Sign out
                   </Button>

@@ -16,6 +16,7 @@ import { Container } from "@/primitives/Container";
 import { Select } from "@/primitives/Select";
 import { Spinner } from "@/primitives/Spinner";
 import { DocumentType, Group } from "@/types";
+import useRudderStackAnalytics from "@/useRudderAnalytics";
 import { capitalize } from "@/utils";
 import styles from "./DocumentsList.module.css";
 
@@ -35,6 +36,7 @@ export function DocumentsList({
 }: Props) {
   const { data: session } = useSession();
   const [documentType, setDocumentType] = useState<DocumentType | "all">("all");
+  const analytics = useRudderStackAnalytics();
 
   // Return `getDocuments` params for the current filters/group
   const getDocumentsOptions: GetDocumentsProps | null = useMemo(() => {
@@ -144,6 +146,11 @@ export function DocumentsList({
             ]}
             onChange={(value: "all" | DocumentType) => {
               setDocumentType(value);
+              if (analytics) {
+                analytics.track("Document Type Filter", {
+                  document_type: value,
+                });
+              }
               revalidateDocuments();
             }}
             className={styles.headerSelect}
